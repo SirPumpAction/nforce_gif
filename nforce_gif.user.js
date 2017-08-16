@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         NFOrce GIF
 // @namespace    http://www.nfohump.com/
-// @version      1.0.0
+// @version      1.0.1
 // @description  Show webms inline
 // @author       https://github.com/SirPumpAction
 // @match        http://*.nfohump.com/forum/viewtopic.php*
@@ -31,10 +31,9 @@
                         target.playing = false;
                         $(target).animate({
                             "width": "256px"
-                        }, 1000);
-                        setTimeout(function(){
+                        }, 1000, function(){
                             target.pause();
-                        },1000);
+                        });
                     }
                 } else {
                     target.controls = !target.controls;
