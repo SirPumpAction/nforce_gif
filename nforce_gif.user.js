@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         NFOrce GIF
 // @namespace    http://www.nfohump.com/
-// @version      1.0.2
+// @version      1.0.3
 // @description  Show webms inline
 // @author       https://github.com/SirPumpAction
 // @match        http://*.nfohump.com/forum/viewtopic.php*
@@ -17,7 +17,11 @@
 
     $('span.postbody a').each(function(i, link){
         try {
-            var shorty = link.href.match(/gfycat\.com\/gifs\/detail\/(.*)/)[1];
+            var shorty;
+            shorty = link.href.match(/gfycat\.com\/gifs\/detail\/(.*)/);
+            if (!shorty)
+                shorty = link.href.match(/fat\.gfycat\.com\/(.*)\./);
+            shorty = shorty[1];
             var $video = $("<video>").attr({"loop":"", "muted":"", "playsinline":"", "preload":"", "poster":"https://thumbs.gfycat.com/" + shorty + "-small.gif", "width":"256", "style":"display: block;", "title":"CLICK: Play/Pause\nCTRL+CLICK: Enable/Disable controls"}).on('click', function(e){
                 var target = e.target;
                 if (!e.ctrlKey) {
