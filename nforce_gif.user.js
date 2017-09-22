@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         NFOrce GIF
 // @namespace    http://www.nfohump.com/
-// @version      1.0.4
+// @version      1.0.5
 // @description  Show webms inline
 // @author       https://github.com/SirPumpAction
 // @match        http://*.nfohump.com/forum/viewtopic.php*
@@ -45,10 +45,10 @@
                     target.controls = !target.controls;
                 }
             });
+            $video.append($("<source>").attr({"src":"https://giant.gfycat.com/" + shorty + ".mp4", "type":"video/mp4"}));
             $video.append($("<source>").attr({"src": "https://fat.gfycat.com/" + shorty + ".webm", "type": "video/webm"}));
-            $video.append($('<source>').attr({"src":"https://thumbs.gfycat.com/" + shorty + "-mobile.mp4", "type":"video/mp4"}));
-            $video.append($('<source>').attr({"src":"https://giant.gfycat.com/" + shorty + ".mp4", "type":"video/mp4"}));
-            $video.append($('<img>').attr({"src":"https://thumbs.gfycat.com/" + shorty + "-small.gif", "type":"video/webm"}));
+            $video.append($("<source>").attr({"src":"https://thumbs.gfycat.com/" + shorty + "-mobile.mp4", "type":"video/mp4"}));
+            $video.append($("<img>").attr({"src":"https://thumbs.gfycat.com/" + shorty + "-small.gif", "type":"video/webm"}));
             $(link).before($video,"Src: ");
         } catch(e){}
     });
