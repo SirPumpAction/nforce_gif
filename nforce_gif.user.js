@@ -2,7 +2,7 @@
 // @name         NFOrce GIF
 // @namespace    http://www.nfohump.com/
 // @connect      gfycat.com
-// @version      1.0.6
+// @version      1.0.7
 // @description  Show webms inline
 // @author       https://github.com/SirPumpAction
 // @match        http://*.nfohump.com/forum/viewtopic.php*
@@ -44,5 +44,4 @@ $('a[href*="gfycat.com"]').each(function(i, link){
             $(link).after($video);
         }
     });
-    $.get(link.href).done(function(page){console.log(page)})
 });
