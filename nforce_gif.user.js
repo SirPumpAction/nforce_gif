@@ -2,7 +2,7 @@
 // @name         NFOrce GIF
 // @namespace    http://www.nfohump.com/
 // @connect      gfycat.com
-// @version      1.0.8
+// @version      1.0.9
 // @description  Show Gfycat and imgur videos inline
 // @author       https://github.com/SirPumpAction
 // @match        http://*.nfohump.com/forum/viewtopic.php*
@@ -11,7 +11,21 @@
 // @updateURL    https://github.com/SirPumpAction/nforce_gif/raw/master/nforce_gif.user.js
 // @require      http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js
 // @grant        GM_xmlhttpRequest
+// @grant        GM_addStyle
 // ==/UserScript==
+
+GM_addStyle(`
+@keyframes rotating {
+    0% { transform: rotate(0deg) }
+    100% { transform: rotate(-360deg) }
+}
+
+.ducky > span {
+    display: inline-block;
+    animation: rotating 2s linear infinite;
+    color: transparent;
+    text-shadow: 0 0 0 rgba(255,255,255,.5);
+}`);
 
 var templates = {
     'gfycat':'<video poster="https://thumbs.gfycat.com/XXX-poster.jpg" tabindex="-1"><source src="https://giant.gfycat.com/XXX.webm" type="video/webm"><source src="https://giant.gfycat.com/XXX.mp4" type="video/mp4"><source src="https://thumbs.gfycat.com/XXX-mobile.mp4" type="video/mp4"></video>',
@@ -44,13 +58,15 @@ var vidoptions = {"loop":"", "muted":"", "playsinline":"", "preload":"", "width"
 
 $('a[href*="gfycat.com"]').each(function(i, link){
     if (!!link.href.match(/\/gifs\//)) {
+        var $replacement = $("<div class='ducky'><span>🦆</span></div>");
+        $(link).after($replacement);
         GM_xmlhttpRequest({
             method: "GET",
             url: link.href,
             onload: function(response) {
                 var $video = $(response.responseText).find('video');
                 $video.removeAttr('height').attr(vidoptions).on('click', videoctrl);
-                $(link).after($video);
+                $replacement.html($video);
             }
         });
     } else {
