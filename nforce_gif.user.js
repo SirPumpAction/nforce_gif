@@ -2,7 +2,7 @@
 // @name         NFOrce GIF
 // @namespace    http://www.nfohump.com/
 // @connect      gfycat.com
-// @version      1.0.9
+// @version      1.0.10
 // @description  Show Gfycat and imgur videos inline
 // @author       https://github.com/SirPumpAction
 // @match        http://*.nfohump.com/forum/viewtopic.php*
@@ -13,6 +13,8 @@
 // @grant        GM_xmlhttpRequest
 // @grant        GM_addStyle
 // ==/UserScript==
+
+var $ = jQuery;
 
 GM_addStyle(`
 @keyframes rotating {
@@ -29,7 +31,7 @@ GM_addStyle(`
 
 var templates = {
     'gfycat':'<video poster="https://thumbs.gfycat.com/XXX-poster.jpg" tabindex="-1"><source src="https://giant.gfycat.com/XXX.webm" type="video/webm"><source src="https://giant.gfycat.com/XXX.mp4" type="video/mp4"><source src="https://thumbs.gfycat.com/XXX-mobile.mp4" type="video/mp4"></video>',
-    'imgur': '<video><source type="video/mp4" src="XXX"></video>'
+    'imgur': '<video><source type="video/mp4" src="XXX.mp4"></video>'
 };
 
 var videoctrl = function(e){
@@ -77,8 +79,15 @@ $('a[href*="gfycat.com"]').each(function(i, link){
 });
 
 $('a[href*="imgur.com"]').each(function(i, link){
+    var imgurl = "";
     if (!!link.href.match(/\.gifv$/)) {
-        var $video = $(templates.imgur.replace(/XXX/gi, link.href.match(/(.*)\.gifv$/)[1]+".mp4"));
+        imgurl = link.href.match(/(.*)\.gifv$/)[1];
+    } else if (!!link.href.match(/\.mp4$/)) {
+        imgurl = link.href.match(/(.*)\.mp4$/)[1];
+    }
+
+    if (imgurl.length) {
+        var $video = $(templates.imgur.replace(/XXX/gi, imgurl));
         $video.attr(vidoptions).on('click', videoctrl);
         $(link).after($video);
     }
